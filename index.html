@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 5 · Term 3 Test</title>
+<style>
+/* ========== ColorOS / Aquamorphic minimalist theme ========== */
+:root{
+  --bg:#F5F6F8;          /* soft off-white system background */
+  --surface:#FFFFFF;     /* cards */
+  --surface-2:#F0F2F5;   /* insets */
+  --ink:#1A1C1E;         /* near-black text */
+  --ink-2:#5B6068;       /* secondary text */
+  --ink-3:#9AA0A8;       /* tertiary */
+  --line:#EBEDF0;        /* hairlines */
+  --accent:#2B7FFF;      /* serene ColorOS blue */
+  --accent-soft:#EAF2FF;
+  --accent-ink:#1A6BF0;
+  --green:#22B07D; --green-soft:#E4F6EF;
+  --amber:#F5A524; --amber-soft:#FDF1DD;
+  --red:#F04452; --red-soft:#FDE8EA;
+  --radius:26px;         /* pebble-round cards */
+  --radius-sm:18px;
+  --radius-pill:999px;
+  /* Scratch block colours (kept authentic) */
+  --motion-bc:#4C97FF;--motion-bd:#3373CC;--looks-bc:#9966FF;--looks-bd:#774DCB;
+  --sound-bc:#CF63CF;--sound-bd:#BD42BD;--events-bc:#FFBF00;--events-bd:#CC9900;
+  --control-bc:#FFAB19;--control-bd:#CF8B17;--sensing-bc:#5CB1D6;--sensing-bd:#2E8EB8;
+  --ops-bc:#59C059;--ops-bd:#389438;--vars-bc:#FF8C1A;--vars-bd:#DB6E00;--ext-bc:#0FBD8C;--ext-bd:#0B8E69;
+}
+.cat-motion{--bc:var(--motion-bc);--bd:var(--motion-bd)}.cat-looks{--bc:var(--looks-bc);--bd:var(--looks-bd)}
+.cat-sound{--bc:var(--sound-bc);--bd:var(--sound-bd)}.cat-events{--bc:var(--events-bc);--bd:var(--events-bd)}
+.cat-control{--bc:var(--control-bc);--bd:var(--control-bd)}.cat-sensing{--bc:var(--sensing-bc);--bd:var(--sensing-bd)}
+.cat-ops{--bc:var(--ops-bc);--bd:var(--ops-bd)}.cat-vars{--bc:var(--vars-bc);--bd:var(--vars-bd)}.cat-ext{--bc:var(--ext-bc);--bd:var(--ext-bd)}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:"OPPO Sans","Segoe UI Variable","SF Pro Display",-apple-system,system-ui,"Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.6;
+  font-weight:400;letter-spacing:.01em;
+  padding:24px 18px 80px;min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:680px;margin:0 auto}
+
+/* header — quiet, no border/shadow */
+header{padding:8px 6px 22px}
+.eyebrow{font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+h1{font-size:2rem;font-weight:600;letter-spacing:-.02em;line-height:1.12}
+.sub{color:var(--ink-2);font-size:.96rem;margin-top:8px;max-width:520px;font-weight:400}
+
+/* cards — pebble-round, flat, faint shadow only */
+.card{background:var(--surface);border-radius:var(--radius);padding:28px 26px;
+  box-shadow:0 1px 2px rgba(20,22,26,.04),0 8px 24px rgba(20,22,26,.05);margin-bottom:18px}
+.card h2{font-size:1.15rem;font-weight:600;margin-bottom:6px}
+
+/* start screen */
+.secrow{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.secchip{background:var(--surface-2);border-radius:var(--radius-pill);padding:8px 15px;font-size:.82rem;font-weight:500;color:var(--ink-2)}
+.secchip b{color:var(--ink);font-weight:600}
+.hintline{color:var(--ink-2);font-size:.9rem;margin-top:14px}
+.field{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.field .row{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.8rem;font-weight:600;color:var(--ink-2);padding-left:4px}
+.field input{font:inherit;font-size:1rem;background:var(--surface-2);border:1.5px solid transparent;
+  border-radius:var(--radius-sm);padding:13px 16px;transition:.18s;color:var(--ink)}
+.field input::placeholder{color:var(--ink-3)}
+.field input:focus{outline:none;background:var(--surface);border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+
+/* progress bar — thin, pill */
+.progress{display:flex;align-items:center;gap:14px;margin:2px 4px 20px}
+.progress .who{font-size:.86rem;font-weight:600;white-space:nowrap}
+.progress .who span{color:var(--ink-3);font-weight:400}
+.track{flex:1;height:6px;background:var(--surface-2);border-radius:var(--radius-pill);overflow:hidden}
+.track i{display:block;height:100%;width:0;background:var(--accent);border-radius:var(--radius-pill);transition:width .4s cubic-bezier(.4,0,.2,1)}
+.count{font-size:.82rem;color:var(--ink-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* question */
+.qhead{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.pill{font-size:.72rem;font-weight:600;letter-spacing:.02em;border-radius:var(--radius-pill);padding:5px 13px;background:var(--accent-soft);color:var(--accent-ink)}
+.pill.sA{background:var(--green-soft);color:#178a60}
+.pill.sB{background:var(--accent-soft);color:var(--accent-ink)}
+.pill.sC{background:var(--amber-soft);color:#b6791a}
+.pill.sD{background:#F0EAFE;color:#6C46C7}
+.pill.sE{background:#E6F7F2;color:#0B8E69}
+.qidx{font-size:.8rem;color:var(--ink-3);margin-left:auto;font-variant-numeric:tabular-nums}
+.qtext{font-size:1.18rem;font-weight:600;line-height:1.45;letter-spacing:-.01em}
+.mono{font-family:"SF Mono","JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  background:var(--surface-2);border-radius:7px;padding:1px 7px;font-size:.9em;font-weight:500}
+
+/* ===== Scratch 3 block styling (flush-stacking) ===== */
+.stage{background:var(--surface-2);border-radius:var(--radius-sm);padding:22px 18px 18px;margin:18px 0;overflow-x:auto}
+.script{display:inline-flex;flex-direction:column;align-items:flex-start}
+
+.sb{position:relative;display:inline-flex;align-items:center;gap:6px;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;font-weight:500;color:#fff;
+  background:var(--bc);padding:0 12px;min-height:28px;white-space:nowrap;border-radius:4px}
+.sb .sb{min-height:0}
+
+/* top bump only; blocks stack flush so the bump reads as the connector */
+.sb.stack::before,.sb.cap::before,.ctop::before{
+  content:"";position:absolute;top:-4px;left:13px;width:12px;height:4px;background:var(--bc);
+  border-radius:2px 2px 0 0}
+
+/* hat: domed top, no bump on top */
+.sb.hat{border-radius:15px 15px 4px 4px;min-height:32px}
+.sb.hat::before{display:none}
+
+/* reporter pill */
+.sb.rep{border-radius:14px;padding:0 11px;min-height:24px}
+.sb.rep::before{display:none}
+
+/* boolean hexagon */
+.sb.bool{border-radius:0;padding:0 15px;min-height:24px;
+  clip-path:polygon(11px 0, calc(100% - 11px) 0, 100% 50%, calc(100% - 11px) 100%, 11px 100%, 0 50%)}
+.sb.bool::before{display:none}
+
+/* inputs */
+.in{background:#fff;color:#575E75;border-radius:14px;padding:0 9px;font-weight:600;font-size:12px;
+  min-width:16px;min-height:18px;text-align:center;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.in.txt{border-radius:4px}
+.drop{background:rgba(0,0,0,.16);border-radius:14px;padding:0 8px;font-size:12px;
+  display:inline-flex;align-items:center;gap:5px;color:#fff;min-height:18px;line-height:1}
+.drop::after{content:"";width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid #fff;opacity:.95}
+.drop.var{background:var(--vars-bc);color:#fff}
+.drop.var::after{border-top-color:#fff}
+
+.ico{display:inline-flex;width:16px;height:16px;flex:none;margin-right:1px;align-items:center;justify-content:center}
+.ico svg{width:16px;height:16px;display:block}
+
+/* ---- C-block (repeat / forever / if) ---- */
+.cwrap{display:inline-flex;flex-direction:column;align-items:flex-start;background:transparent}
+.sb.ctop{border-radius:4px 4px 0 0;min-height:28px}
+.cbody{display:flex;align-items:stretch;align-self:stretch}
+.carm{width:12px;flex:none;background:var(--bc);border-bottom-left-radius:0}
+.cinner{display:inline-flex;flex-direction:column;align-items:flex-start;padding:4px 0 4px 0}
+.cfoot{min-height:12px;min-width:44px;background:var(--bc);border-radius:0 0 4px 4px;align-self:flex-start}
+/* inner blocks connect flush; their own top bump shows */
+
+/* options — flat cards, fill on select */
+.opts{display:flex;flex-direction:column;gap:11px;margin-top:20px}
+.opt{text-align:left;font:inherit;font-size:1rem;cursor:pointer;background:var(--surface-2);border:1.5px solid transparent;
+  border-radius:var(--radius-sm);padding:15px 18px;transition:.16s cubic-bezier(.4,0,.2,1);color:var(--ink);display:flex;gap:13px;align-items:center}
+.opt .k{width:26px;height:26px;flex:none;border-radius:50%;background:var(--surface);color:var(--ink-2);
+  font-weight:600;font-size:.82rem;display:flex;align-items:center;justify-content:center}
+.opt:hover:not(:disabled){background:var(--accent-soft)}
+.opt:focus-visible{outline:none;box-shadow:0 0 0 4px var(--accent-soft)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--green-soft);border-color:var(--green)}
+.opt.right .k{background:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red)}
+.opt.wrong .k{background:var(--red);color:#fff}
+
+/* feedback — quiet inset */
+.fb{margin-top:18px;border-radius:var(--radius-sm);padding:15px 18px;font-size:.93rem;display:none;line-height:1.55}
+.fb.on{display:block}
+.fb.good{background:var(--green-soft);color:#136e4d}
+.fb.bad{background:var(--amber-soft);color:#8a5a12}
+.fb b{display:block;margin-bottom:3px;font-weight:600}
+
+
+/* audio (read-aloud) button */
+.audiobtn{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent-ink);
+  border:none;border-radius:var(--radius-pill);padding:9px 16px;font:inherit;font-weight:600;font-size:.86rem;
+  cursor:pointer;transition:.16s;margin-top:14px}
+.audiobtn:hover{filter:brightness(.98);transform:translateY(-1px)}
+.audiobtn:active{transform:translateY(0)}
+.audiobtn:focus-visible{outline:none;box-shadow:0 0 0 4px var(--accent-soft)}
+.audiobtn .ic{width:18px;height:18px;flex:none}
+.audiobtn.playing{background:var(--accent);color:#fff}
+.audiobtn[disabled]{opacity:.6;cursor:default;transform:none}
+/* save status chip on results */
+.savechip{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;font-weight:500;
+  border-radius:var(--radius-pill);padding:8px 16px;margin-top:4px}
+.savechip.pending{background:var(--surface-2);color:var(--ink-2)}
+.savechip.done{background:var(--green-soft);color:#136e4d}
+.savechip.fail{background:var(--amber-soft);color:#8a5a12}
+
+/* nav */
+.nav{display:flex;gap:12px;justify-content:space-between;margin-top:22px}
+.btn{font:inherit;font-weight:600;cursor:pointer;font-size:.98rem;background:var(--accent);color:#fff;border:none;
+  border-radius:var(--radius-pill);padding:13px 30px;transition:.16s;letter-spacing:.01em}
+.btn:hover:not(:disabled){filter:brightness(1.05);transform:translateY(-1px)}
+.btn:active:not(:disabled){transform:translateY(0)}
+.btn.ghost{background:var(--surface-2);color:var(--ink-2)}
+.btn.ghost:hover{background:var(--line)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible{outline:none;box-shadow:0 0 0 4px var(--accent-soft)}
+.btn.wide{width:100%;justify-content:center;display:flex}
+
+/* results */
+.result{text-align:center;padding:34px 26px}
+.ring{width:150px;height:150px;margin:0 auto 8px;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .num{font-size:2.4rem;font-weight:600;line-height:1;letter-spacing:-.02em}
+.ring .of{font-size:.8rem;color:var(--ink-3);margin-top:2px}
+.grade{display:inline-block;margin-top:10px;font-size:1.05rem;font-weight:600}
+.rmsg{color:var(--ink-2);font-size:.95rem;margin:8px auto 0;max-width:400px}
+.bdgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:26px 0 6px}
+.bd{background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 8px;text-align:center}
+.bd .l{font-size:.66rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:600}
+.bd .v{font-size:1.25rem;font-weight:600;margin-top:4px;font-variant-numeric:tabular-nums}
+.review{text-align:left;margin-top:26px}
+.review h3{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin-bottom:12px}
+.ritem{background:var(--surface-2);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:10px;font-size:.9rem;line-height:1.55}
+.ritem .rq{font-weight:600;margin-bottom:6px}
+.ritem .rrow{display:flex;gap:8px;margin-top:4px}
+.ritem .tagx{color:var(--red);font-weight:600;flex:none}
+.ritem .tagok{color:var(--green);font-weight:600;flex:none}
+.ritem .stage{margin:10px 0}
+.ritem .ex{color:var(--ink-2);margin-top:8px}
+.racts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+
+@media print{.btn,.racts,.progress{display:none}.card{box-shadow:none;border:1px solid var(--line)}}
+@media(max-width:560px){h1{font-size:1.6rem}.card{padding:22px 18px}.bdgrid{grid-template-columns:repeat(5,1fr);gap:5px}.bd .v{font-size:1rem}.bd .l{font-size:.58rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Year 5 &middot; Term 3 &middot; Digital Technologies</div>
+  <h1>Term&nbsp;3 Test</h1>
+  <p class="sub">Scratch extensions, block tracing, game design vocabulary, and the "Can Video Games Make You Smarter?" video.</p>
+</header>
+
+<div id="startView">
+  <div class="card">
+    <h2>Before you begin</h2>
+    <div class="secrow">
+      <span class="secchip"><b>A</b>&nbsp; Extensions &middot; 11</span>
+      <span class="secchip"><b>B</b>&nbsp; Blocks &amp; tracing &middot; 15</span>
+      <span class="secchip"><b>C</b>&nbsp; Vocabulary &middot; 8</span>
+      <span class="secchip"><b>D</b>&nbsp; Video &middot; 6</span>
+      <span class="secchip"><b>E</b>&nbsp; Combined tracing &middot; 5</span>
+    </div>
+    <p class="hintline">45 questions, one mark each. Many show the real Scratch block. You get instant feedback after each answer and a full review at the end. Progress saves on this device, so you can pause and come back.</p>
+    <div class="field">
+      <div class="row"><label for="nm">Name</label><input id="nm" type="text" placeholder="Type your name" autocomplete="off"></div>
+      <div class="row"><label for="cl">Class</label><input id="cl" type="text" placeholder="e.g. Y5-A" autocomplete="off"></div>
+    </div>
+    <div class="nav" style="margin-top:24px"><span></span><button class="btn" id="startBtn" type="button">Start test</button></div>
+  </div>
+</div>
+
+<div id="quizView" style="display:none">
+  <div class="progress">
+    <span class="who" id="who"></span>
+    <span class="track"><i id="bar"></i></span>
+    <span class="count">Q<b id="qnum">1</b>/45 &middot; <b id="scoreNow">0</b> pts</span>
+  </div>
+  <div class="card">
+    <div class="qhead">
+      <span class="pill" id="pill">Extensions</span>
+      <span class="qidx" id="qidx">01 / 45</span>
+    </div>
+    <p class="qtext" id="qtext"></p>
+    <div id="viz"></div>
+    <button class="audiobtn" id="audioBtn" type="button" aria-label="Read the question and options aloud"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 8.5a4 4 0 010 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span id="audioLbl">Read aloud</span></button>
+    <div class="opts" id="opts"></div>
+    <div class="fb" id="fb"></div>
+    <div class="nav">
+      <button class="btn ghost" id="quitBtn" type="button">Save &amp; exit</button>
+      <button class="btn" id="nextBtn" type="button" disabled>Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="resultView" style="display:none">
+  <div class="card result">
+    <div class="ring">
+      <svg width="150" height="150" viewBox="0 0 150 150">
+        <circle cx="75" cy="75" r="66" fill="none" stroke="#EBEDF0" stroke-width="12"></circle>
+        <circle id="ringArc" cx="75" cy="75" r="66" fill="none" stroke="#2B7FFF" stroke-width="12" stroke-linecap="round" stroke-dasharray="415" stroke-dashoffset="415"></circle>
+      </svg>
+      <div class="val"><div class="num" id="rNum">0</div><div class="of" id="rOf">of 45</div></div>
+    </div>
+    <div class="grade" id="rGrade">&mdash;</div>
+    <div><span class="savechip pending" id="saveChip">Saving your result…</span></div>
+    <p class="rmsg" id="rMsg"></p>
+    <div class="bdgrid">
+      <div class="bd"><div class="l">Ext</div><div class="v" id="bA">0/11</div></div>
+      <div class="bd"><div class="l">Blocks</div><div class="v" id="bB">0/15</div></div>
+      <div class="bd"><div class="l">Vocab</div><div class="v" id="bC">0/8</div></div>
+      <div class="bd"><div class="l">Video</div><div class="v" id="bD">0/6</div></div>
+      <div class="bd"><div class="l">Combo</div><div class="v" id="bE">0/5</div></div>
+    </div>
+    <div class="review" id="review"></div>
+    <div class="racts">
+      <button class="btn ghost" id="printBtn" type="button">Print / Save PDF</button>
+      <button class="btn" id="againBtn" type="button">Take it again</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+// Term 3 test — 45 questions with block visuals.
+var Q = [
+  {"s":"A","cat":"Extensions","q":"You see this block in a project. Which extension is being used?","viz":[{"c":"ext","ic":"face","k":"stack","p":["go to ",{"d":"nose"}]}],"o":["Pen","Video Sensing","Face Sensing","Text to Speech"],"a":2,"e":"\"go to [face part]\" is a Face Sensing block. It moves the sprite onto a nose, mouth, eye and so on."},
+  {"s":"A","cat":"Extensions","q":"Which extension would you add to make your project talk out loud, like this block does?","viz":[{"c":"ext","ic":"tts","k":"stack","p":["speak ",{"t":"hello"}]}],"o":["Pen","Video Sensing","Text to Speech","Face Sensing"],"a":2,"e":"Text to Speech makes the computer say your words aloud through the speakers."},
+  {"s":"A","cat":"Extensions","q":"This block belongs to which extension?","viz":[{"c":"ext","ic":"pen","k":"stack","p":["change pen ",{"d":"color"}," by ",{"n":"10"}]}],"o":["Video Sensing","Pen","Face Sensing","Text to Speech"],"a":1,"e":"Anything with the word \"pen\" that changes the colour or size of the line is from the Pen extension."},
+  {"s":"A","cat":"Extensions","q":"What is the main job of the Pen extension (shown by blocks like these)?","viz":[{"c":"ext","ic":"pen","k":"stack","p":["pen down"]},{"c":"ext","ic":"pen","k":"stack","p":["stamp"]}],"o":["Make the project talk","Sense your face","Draw lines and shapes with the sprite","Sense movement"],"a":2,"e":"Pen turns the sprite into a pencil so it can draw lines and stamp shapes on the stage."},
+  {"s":"A","cat":"Extensions","q":"Both Video Sensing and Face Sensing need one piece of hardware to work. What is it?","viz":[{"c":"ext","ic":"video","k":"stack","p":["turn video ",{"d":"on"}]},{"c":"ext","ic":"face","k":"hat","p":["when a face is detected"]}],"o":["A camera (webcam)","A speaker","A microphone","A printer"],"a":0,"e":"Both extensions watch through the camera. Without a webcam, neither one can sense anything."},
+  {"s":"A","cat":"Extensions","q":"What is the key difference between the two blocks below?","viz":[{"c":"ext","ic":"video","k":"hat","p":["when video motion > ",{"n":"10"}]},{"c":"ext","ic":"face","k":"hat","p":["when a face is detected"]}],"o":["One draws, one talks","One is older","Video Sensing reacts to movement; Face Sensing reacts to a face","They are exactly the same"],"a":2,"e":"Video Sensing measures how much movement happens in front of the camera. Face Sensing finds a face and its parts."},
+  {"s":"A","cat":"Extensions","q":"Which one of these four blocks is a hexagon (boolean) block?","viz":[{"c":"ext","ic":"face","k":"hat","p":["when a face is detected"]},{"c":"ext","ic":"face","k":"stack","p":["go to ",{"d":"nose"}]},{"c":"ext","ic":"face","k":"bool","p":["a face is detected?"]},{"c":"ext","ic":"face","k":"rep","p":["face size"]}],"o":["The 1st (hat)","The 2nd (stack)","The 3rd (hexagon)","The 4th (oval)"],"a":2,"e":"The hexagon shape with a question mark, \"a face is detected?\", is the boolean. It fits inside if and wait until."},
+  {"s":"A","cat":"Extensions","q":"This block moves the sprite onto part of your face. Which extension is it from?","viz":[{"c":"ext","ic":"face","k":"stack","p":["go to ",{"d":"nose"}]},{"c":"ext","ic":"face","k":"stack","p":["set size to face size"]}],"o":["Pen","Face Sensing","Video Sensing","Text to Speech"],"a":1,"e":"Following the head and using face size to grow or shrink is exactly what Face Sensing is for."},
+  {"s":"A","cat":"Extensions","q":"In Scratch, extensions are found by clicking the \"Add Extension\" button. Where is it?","o":["Bottom-left of the screen","Top-right","In the sprite list","In the backdrop menu"],"a":0,"e":"The Add Extension button is the blue icon at the bottom-left of the block palette."},
+  {"s":"A","cat":"Extensions","q":"You want a game to react when the player waves their hand at the camera. Which extension do you need?","viz":[{"c":"ext","ic":"video","k":"hat","p":["when video motion > ",{"n":"10"}]}],"o":["Pen","Text to Speech","Video Sensing","None of them"],"a":2,"e":"Waving a hand is movement, and Video Sensing measures movement in front of the camera."},
+  {"s":"A","cat":"Extensions","q":"This block belongs to which extension?","viz":[{"c":"ext","ic":"tts","k":"stack","p":["speak ",{"t":"hello"}]}],"o":["Pen","Video Sensing","Text to Speech","Face Sensing"],"a":2,"e":"\"speak\" is the main Text to Speech block. It reads your words out loud."},
+  {"s":"B","cat":"Blocks & Tracing","q":"This block is a hexagon shape. What can a hexagon block report?","viz":[{"c":"sensing","k":"bool","p":["touching ",{"d":"mouse-pointer"}," ?"]}],"o":["True or false","A number","A word","A colour"],"a":0,"e":"Hexagon blocks are booleans. They only ever answer true or false, and they fit inside if and wait until."},
+  {"s":"B","cat":"Blocks & Tracing","q":"A sprite at x:0 y:0 facing right runs this script. Where does it finish?","viz":[{"c":"events","k":"hat","p":["when ",{"d":"green flag"}," clicked"]},{"c":"motion","k":"stack","p":["go to x: ",{"n":"0"}," y: ",{"n":"0"}]},{"c":"control","k":"cwrap","head":["repeat ",{"n":"4"}],"inner":[{"c":"motion","k":"stack","p":["move ",{"n":"15"}," steps"]},{"c":"motion","k":"stack","p":["turn ↻ ",{"n":"90"}," degrees"]}]}],"o":["Back at x:0 y:0","x:60 y:0","x:0 y:60","x:15 y:15"],"a":0,"e":"Move then turn 90°, four times over, draws a square. A square always finishes exactly where it started."},
+  {"s":"B","cat":"Blocks & Tracing","q":"One of these blocks moves a sprite SMOOTHLY over time instead of jumping. Which one?","viz":[{"c":"motion","k":"stack","p":["go to x: ",{"n":"0"}," y: ",{"n":"0"}]},{"c":"motion","k":"stack","p":["glide ",{"n":"1"}," secs to x: ",{"n":"0"}," y: ",{"n":"0"}]}],"o":["The 1st (go to)","The 2nd (glide)","Both the same","Neither"],"a":1,"e":"Only glide has a \"secs\" slot, so the sprite slides over time. \"go to\" jumps there in a single instant."},
+  {"s":"B","cat":"Blocks & Tracing","q":"This script runs. How many steps has the sprite moved in total?","viz":[{"c":"control","k":"cwrap","head":["repeat ",{"n":"6"}],"inner":[{"c":"motion","k":"stack","p":["move ",{"n":"12"}," steps"]}]}],"o":["12","72","18","6"],"a":1,"e":"The loop runs 6 times, moving 12 steps each pass: 6 × 12 = 72."},
+  {"s":"B","cat":"Blocks & Tracing","q":"This script runs. What is the final size of the sprite?","viz":[{"c":"looks","k":"stack","p":["set size to ",{"n":"100"}," %"]},{"c":"looks","k":"stack","p":["change size by ",{"n":"20"}]},{"c":"looks","k":"stack","p":["change size by ",{"n":"20"}]}],"o":["20%","120%","100%","140%"],"a":3,"e":"Set makes it 100. Change adds on: 100 + 20 + 20 = 140%."},
+  {"s":"B","cat":"Blocks & Tracing","q":"This block is shown. But which block would change the whole BACKGROUND instead of the sprite?","viz":[{"c":"looks","k":"stack","p":["switch costume to ",{"d":"costume2"}]}],"o":["switch backdrop to Forest","next costume","switch costume to costume2","change color effect by 25"],"a":0,"e":"The block shown changes the sprite’s costume. To change the whole stage background you need \"switch backdrop to\"."},
+  {"s":"B","cat":"Blocks & Tracing","q":"This script runs. What does the player hear?","viz":[{"c":"sound","k":"stack","p":["play sound ",{"d":"Meow"}," until done"]},{"c":"sound","k":"stack","p":["start sound ",{"d":"Pop"}]}],"o":["Meow and Pop together","Only Pop","Only Meow","The whole Meow, then Pop"],"a":3,"e":"\"play until done\" holds the script up until Meow finishes. Only then does Pop start."},
+  {"s":"B","cat":"Blocks & Tracing","q":"This block sends a message but does NOT wait. Which block WOULD wait for the receivers to finish?","viz":[{"c":"events","k":"stack","p":["broadcast ",{"d":"message1"}]}],"o":["broadcast message1","broadcast message1 and wait","when I receive message1","when green flag clicked"],"a":1,"e":"The block shown fires and moves on straight away. \"broadcast and wait\" is the one that pauses until the receivers finish."},
+  {"s":"B","cat":"Blocks & Tracing","q":"This script runs. What is the final score?","viz":[{"c":"vars","k":"stack","p":["set ",{"d":"score","v":true}," to ",{"n":"0"}]},{"c":"control","k":"cwrap","head":["repeat ",{"n":"5"}],"inner":[{"c":"vars","k":"stack","p":["change ",{"d":"score","v":true}," by ",{"n":"2"}]}]}],"o":["10","2","7","5"],"a":0,"e":"The loop runs 5 times, adding 2 each pass: 5 × 2 = 10."},
+  {"s":"B","cat":"Blocks & Tracing","q":"The say block is placed BELOW a forever loop, like this. Why does it never run?","viz":[{"c":"control","k":"cwrap","head":["forever"],"inner":[{"c":"motion","k":"stack","p":["move ",{"n":"5"}," steps"]}]},{"c":"looks","k":"stack","p":["say ",{"t":"Game Over"}]}],"o":["It is spelled wrong","The steps are too small","A forever loop never ends, so nothing below it can run","It needs a wait block"],"a":2,"e":"A forever loop never finishes, so any block placed after it can never be reached."},
+  {"s":"B","cat":"Blocks & Tracing","q":"lives = 5. This script runs. What does the sprite say?","viz":[{"c":"control","k":"cwrap","head":["if ",{"b":{"c":"ops","k":"bool","p":[{"d":"lives","v":true}," < ",{"n":"1"}]}}," then"],"inner":[{"c":"looks","k":"stack","p":["say ",{"t":"Game Over"}]}]},{"c":"control","k":"cwrap","head":["if ",{"b":{"c":"ops","k":"bool","p":[{"d":"lives","v":true}," > ",{"n":"0"}]}}," then"],"inner":[{"c":"looks","k":"stack","p":["say ",{"t":"Keep going!"}]}]}],"o":["Keep going!","Game Over","Both messages","Nothing"],"a":0,"e":"5 is not less than 1, so the first if is skipped. 5 is greater than 0, so the second one runs."},
+  {"s":"B","cat":"Blocks & Tracing","q":"This boolean uses AND. Is the whole thing true or false?","viz":[{"c":"ops","k":"bool","p":[{"b":{"c":"ops","k":"bool","p":[{"n":"8"}," > ",{"n":"2"}]}}," and ",{"b":{"c":"ops","k":"bool","p":[{"n":"3"}," > ",{"n":"7"}]}}]}],"o":["true","false","It causes an error","Sometimes true"],"a":1,"e":"AND needs BOTH sides true. 8 > 2 is true, but 3 > 7 is false, so the whole thing is false."},
+  {"s":"B","cat":"Blocks & Tracing","q":"This boolean uses OR. Is the whole thing true or false?","viz":[{"c":"ops","k":"bool","p":[{"b":{"c":"ops","k":"bool","p":[{"n":"8"}," > ",{"n":"2"}]}}," or ",{"b":{"c":"ops","k":"bool","p":[{"n":"3"}," > ",{"n":"7"}]}}]}],"o":["true","false","It causes an error","Sometimes true"],"a":0,"e":"OR needs only ONE side true. 8 > 2 is true, so the whole thing is true."},
+  {"s":"B","cat":"Blocks & Tracing","q":"What does this reporter block show?","viz":[{"c":"ops","k":"rep","p":["join ",{"t":"Level"}," ",{"t":"7"}]}],"o":["Level 7","Level7","Level + 7","7"],"a":1,"e":"Join glues the two pieces together with no space. To get a space you must type it inside the box yourself."},
+  {"s":"B","cat":"Blocks & Tracing","q":"The score should climb but it is stuck on 1. What is the bug in this script?","viz":[{"c":"control","k":"cwrap","head":["forever"],"inner":[{"c":"vars","k":"stack","p":["set ",{"d":"score","v":true}," to ",{"n":"0"}]},{"c":"vars","k":"stack","p":["change ",{"d":"score","v":true}," by ",{"n":"1"}]}]}],"o":["set score to 0 is inside the loop, so it wipes the score every pass","Change should be set","Score should start at 1","Forever should be repeat"],"a":0,"e":"Set score to 0 belongs BEFORE the loop so it runs once. Inside the loop it resets the score every time."},
+  {"s":"C","cat":"Game Design Vocabulary","q":"A step-by-step set of instructions written before any code, like a recipe, is a(n)…","o":["algorithm","variable","feature","backdrop"],"a":0,"e":"An algorithm is the ordered list of steps, written in plain English before you build, like a recipe."},
+  {"s":"C","cat":"Game Design Vocabulary","q":"A labelled box the game uses to remember something (like the score) is a…","viz":[{"c":"vars","k":"stack","p":["set ",{"d":"score","v":true}," to ",{"n":"0"}]}],"o":["algorithm","variable","backdrop","sprite"],"a":1,"e":"A variable is a labelled box that stores a value the game needs to remember, such as the score."},
+  {"s":"C","cat":"Game Design Vocabulary","q":"Any action a player provides — tapping, clicking, typing — is called…","o":["iteration","output","user input","success criteria"],"a":2,"e":"User input is any action the player gives the game. No user input means no game."},
+  {"s":"C","cat":"Game Design Vocabulary","q":"A loop that repeats steps until a condition is met (for example, until lives = 0) is called…","viz":[{"c":"control","k":"cwrap","head":["repeat until ",{"b":{"c":"ops","k":"bool","p":[{"d":"lives","v":true}," = ",{"n":"0"}]}}],"inner":[{"c":"motion","k":"stack","p":["move ",{"n":"10"}," steps"]}]}],"o":["an algorithm","a feature","a target audience","iteration"],"a":3,"e":"Iteration is a loop: the same steps repeat until a condition is met."},
+  {"s":"C","cat":"Game Design Vocabulary","q":"The specific group a game is designed for (their age and interests) is the…","o":["success criteria","competing factors","features","target audience"],"a":3,"e":"The target audience is who the game is for. Their age and interests shape the whole design."},
+  {"s":"C","cat":"Game Design Vocabulary","q":"\"You only have so much time, skill and tools, and they all compete for your attention.\" This idea is called…","o":["iteration","user input","a variable","competing factors"],"a":3,"e":"Competing factors are the limits — time, skills, resources, features — that all compete for your attention."},
+  {"s":"C","cat":"Game Design Vocabulary","q":"A must-do checklist, written BEFORE you build and checked AFTER, that describes what a finished game should do, is the…","o":["algorithm","target audience","variable","success criteria"],"a":3,"e":"Success criteria are specific, checkable statements written before building and ticked off after."},
+  {"s":"C","cat":"Game Design Vocabulary","q":"\"The game must be fun\" is a WEAK success criterion because it is not…","o":["creative","colourful","long","measurable and checkable"],"a":3,"e":"A good success criterion must be measurable and checkable. \"Fun\" cannot be measured, so it is weak."},
+  {"s":"D","cat":"Video: Games & the Brain","q":"The video’s overall answer is that games can help the brain — but mainly when played…","o":["all day","only alone","in moderation","only educational ones"],"a":2,"e":"The video’s main point is that the benefits come when games are played in moderation, not all day."},
+  {"s":"D","cat":"Video: Games & the Brain","q":"Studies in the video found that playing Super Mario actually increased…","o":["height","eyesight to perfect","typing speed","grey matter in the brain"],"a":3,"e":"Research showed playing Super Mario grew grey matter, a sign of the brain changing and learning."},
+  {"s":"D","cat":"Video: Games & the Brain","q":"Which profession did the video say performs better after gaming (faster, with fewer errors)?","o":["teachers","farmers","singers","surgeons"],"a":3,"e":"The video noted that surgeons who game tend to work faster and make fewer errors."},
+  {"s":"D","cat":"Video: Games & the Brain","q":"Action games were shown to improve players’…","o":["hearing","sense of smell","vision and visual attention","height"],"a":2,"e":"Action games were linked to better vision and stronger visual attention — spotting and focusing on things."},
+  {"s":"D","cat":"Video: Games & the Brain","q":"According to the video, one downside of playing TOO much is that it can…","o":["improve focus","have negative effects, such as too much sitting and less time for other things","grow grey matter","help surgeons"],"a":1,"e":"The benefits depend on moderation. Too much play brings downsides like excessive sitting and lost time."},
+  {"s":"D","cat":"Video: Games & the Brain","q":"This links to our Game Design unit because the games we remember best are the ones that are…","o":["the longest","the most expensive","clear and well-designed","the loudest"],"a":2,"e":"Memorable games — like the ones in the wrap-up — are remembered for clear, simple, strong design."},
+  {"s":"E","cat":"Combined Tracing","q":"Read the whole script. What shape does the sprite draw on the stage?","viz":[{"c":"events","k":"hat","p":["when ",{"d":"green flag"}," clicked"]},{"c":"ext","ic":"pen","k":"stack","p":["erase all"]},{"c":"ext","ic":"pen","k":"stack","p":["pen down"]},{"c":"ext","ic":"pen","k":"stack","p":["set pen size to ",{"n":"5"}]},{"c":"control","k":"cwrap","head":["repeat ",{"n":"3"}],"inner":[{"c":"motion","k":"stack","p":["move ",{"n":"50"}," steps"]},{"c":"motion","k":"stack","p":["turn ↻ ",{"n":"120"}," degrees"]}]},{"c":"ext","ic":"pen","k":"stack","p":["pen up"]}],"o":["A triangle","A square","A circle","Nothing is drawn"],"a":0,"e":"The pen is down, and the loop repeats 3 times with 120° turns. Three sides and three 120° turns make a triangle."},
+  {"s":"E","cat":"Combined Tracing","q":"Read the whole script. When does the sprite jump to your nose and resize?","viz":[{"c":"events","k":"hat","p":["when ",{"d":"green flag"}," clicked"]},{"c":"ext","ic":"face","k":"stack","p":["point in direction of face tilt"]},{"c":"control","k":"cwrap","head":["forever"],"inner":[{"c":"control","k":"cwrap","head":["if ",{"b":{"c":"ext","ic":"face","k":"bool","p":["a face is detected?"]}}," then"],"inner":[{"c":"ext","ic":"face","k":"stack","p":["go to ",{"d":"nose"}]},{"c":"ext","ic":"face","k":"stack","p":["set size to face size"]}]}]}],"o":["All the time, even with no face","Only while a face is detected by the camera","Only once at the start","Never, the script is broken"],"a":1,"e":"The forever loop keeps checking, but the \"go to nose\" blocks only run when the if is true — that is, only while a face is detected."},
+  {"s":"E","cat":"Combined Tracing","q":"Read the whole script. What does the sprite SAY out loud at the end?","viz":[{"c":"events","k":"hat","p":["when ",{"d":"green flag"}," clicked"]},{"c":"vars","k":"stack","p":["set ",{"d":"score","v":true}," to ",{"n":"0"}]},{"c":"control","k":"cwrap","head":["repeat ",{"n":"4"}],"inner":[{"c":"vars","k":"stack","p":["change ",{"d":"score","v":true}," by ",{"n":"5"}]},{"c":"control","k":"stack","p":["wait ",{"n":"0.5"}," seconds"]}]},{"c":"ext","ic":"tts","k":"stack","p":["set voice to ",{"d":"alto"}]},{"c":"ext","ic":"tts","k":"stack","p":["speak ",{"b":{"c":"ops","k":"rep","p":["join ",{"t":"Score is "}," ",{"d":"score","v":true}]}}]}],"o":["Score is 5","Score is0","20","Score is 20"],"a":3,"e":"The loop adds 5 four times: 4 × 5 = 20. Join sticks \"Score is \" in front, and the space was typed in the box, giving \"Score is 20\"."},
+  {"s":"E","cat":"Combined Tracing","q":"Read the whole script. What makes the costume change?","viz":[{"c":"events","k":"hat","p":["when ",{"d":"green flag"}," clicked"]},{"c":"ext","ic":"video","k":"stack","p":["turn video ",{"d":"on"}]},{"c":"control","k":"cwrap","head":["forever"],"inner":[{"c":"control","k":"cwrap","head":["if ",{"b":{"c":"ops","k":"bool","p":[{"b":{"c":"ext","ic":"video","k":"rep","p":["video ",{"d":"motion"}," on ",{"d":"sprite"}]}}," > ",{"n":"50"}]}}," then"],"inner":[{"c":"looks","k":"stack","p":["next costume"]},{"c":"control","k":"stack","p":["wait ",{"n":"1"}," seconds"]}]}]}],"o":["Nothing, the camera is off","A lot of movement over the sprite (more than 50)","Clicking the sprite","A key press"],"a":1,"e":"The video is on, and the if only runs when video motion on the sprite is greater than 50 — that is, when there is a lot of movement."},
+  {"s":"E","cat":"Combined Tracing","q":"Two scripts run together. What is drawn on the stage?","viz":[{"c":"events","k":"hat","p":["when ",{"d":"green flag"}," clicked"]},{"c":"ext","ic":"pen","k":"stack","p":["erase all"]},{"c":"events","k":"stack","p":["broadcast ",{"d":"draw"}]},{"c":"events","k":"hat","p":["when I receive ",{"d":"draw"}]},{"c":"ext","ic":"pen","k":"stack","p":["pen down"]},{"c":"control","k":"cwrap","head":["repeat ",{"n":"4"}],"inner":[{"c":"motion","k":"stack","p":["move ",{"n":"40"}," steps"]},{"c":"motion","k":"stack","p":["turn ↻ ",{"n":"90"}," degrees"]}]},{"c":"ext","ic":"pen","k":"stack","p":["pen up"]}],"o":["A square","A triangle","A straight line","Nothing is drawn"],"a":0,"e":"The green flag broadcasts \"draw\", which starts the second script. Pen down, then repeat 4 with 90° turns, draws a square."}
+];
+
+
+
+var ICONS={pen:'<svg viewBox="0 0 20 20"><path d="M14.5 2.5l3 3-9 9-3.5.5.5-3.5z" fill="#4a4a6a" stroke="#fff" stroke-width="1" stroke-linejoin="round"/><path d="M13 4l3 3" stroke="#c9a26a" stroke-width="1.4"/></svg>',video:'<svg viewBox="0 0 20 20"><rect x="2" y="6" width="11" height="9" rx="2" fill="#2a2a3a"/><path d="M13 9l5-3v8l-5-3z" fill="#2a2a3a"/><circle cx="7" cy="10.5" r="2.2" fill="#fff"/></svg>',face:'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="#fff"/><circle cx="7.2" cy="8.5" r="1.1" fill="#0b8e69"/><circle cx="12.8" cy="8.5" r="1.1" fill="#0b8e69"/><path d="M6.5 12.5q3.5 3 7 0" stroke="#0b8e69" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>',tts:'<svg viewBox="0 0 20 20"><path d="M3 8h3l4-3v10l-4-3H3z" fill="#2a2a3a"/><path d="M13 7q2.5 3 0 6M15.5 5q4 5 0 10" stroke="#2a2a3a" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>'};
+var KEY='y5term3_v3';
+
+/* ===== Backend config =====
+   Paste your Apps Script Web App URL between the quotes (see Code.gs setup). */
+var BACKEND_URL = "";
+
+/* ===== Read-aloud audio =====
+   Tries the natural cloud voice via BACKEND_URL first; if that is not set
+   or fails, falls back to the browser's own speech engine. */
+var currentAudio = null;
+function stopAudio(){
+  if(currentAudio){ try{currentAudio.pause();}catch(e){} currentAudio=null; }
+  try{ window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
+  var b=byId('audioBtn'); if(b){ b.classList.remove('playing'); byId('audioLbl').textContent='Read aloud'; }
+}
+function questionSpeech(q){
+  var letters=['A','B','C','D'];
+  // read the question, then each choice as: letter, short pause, then the text.
+  // The comma+ellipsis give a natural pause in both the cloud voice and the browser voice.
+  var t = q.q + ' \u2026 ';
+  q.o.forEach(function(o,n){ t += letters[n] + '. \u2026 ' + o + '. '; });
+  // strip block brackets so they are not read as symbols
+  return t.replace(/[\[\]]/g,' ').replace(/[ ]{2,}/g,' ').trim();
+}
+function pickBrowserVoice(){
+  var vs = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  if(!vs.length) return null;
+  // prefer a natural-sounding English voice
+  var pref = ['Google UK English Female','Google UK English Male','Microsoft Libby','Microsoft Sonia','Samantha','Daniel','Google US English'];
+  for(var i=0;i<pref.length;i++){ var v=vs.filter(function(x){return x.name.indexOf(pref[i])>=0;})[0]; if(v) return v; }
+  return vs.filter(function(x){return /en(-|_)?(GB|US)?/i.test(x.lang);})[0] || vs[0];
+}
+function browserSpeak(text){
+  if(!window.speechSynthesis){ return; }
+  var u=new SpeechSynthesisUtterance(text);
+  var v=pickBrowserVoice(); if(v) u.voice=v;
+  u.rate=0.96; u.pitch=1.0; u.lang=(v&&v.lang)||'en-GB';
+  u.onend=function(){ stopAudio(); };
+  window.speechSynthesis.speak(u);
+}
+function playAudio(){
+  var q=Q[i];
+  var text=questionSpeech(q);
+  var btn=byId('audioBtn');
+  // toggle off if already playing
+  if(btn.classList.contains('playing')){ stopAudio(); return; }
+  stopAudio();
+  btn.classList.add('playing'); byId('audioLbl').textContent='Playing…';
+
+  if(BACKEND_URL){
+    // try cloud natural voice
+    var url=BACKEND_URL+(BACKEND_URL.indexOf('?')<0?'?':'&')+'type=tts&text='+encodeURIComponent(text);
+    fetch(url).then(function(r){return r.json();}).then(function(d){
+      if(d && d.ok && d.audio){
+        currentAudio=new Audio('data:audio/mp3;base64,'+d.audio);
+        currentAudio.onended=function(){ stopAudio(); };
+        currentAudio.onerror=function(){ browserSpeak(text); };
+        currentAudio.play().catch(function(){ browserSpeak(text); });
+      } else {
+        browserSpeak(text); // fallback
+      }
+    }).catch(function(){ browserSpeak(text); });
+  } else {
+    browserSpeak(text);
+  }
+}
+// warm up browser voices (some browsers load them async)
+if(window.speechSynthesis){ window.speechSynthesis.onvoiceschanged=function(){}; }
+
+var i=0, score=0, locked=false, answers=new Array(Q.length).fill(-1);
+var student={name:'',cls:''};
+var SECLABEL={A:'Extensions',B:'Blocks & Tracing',C:'Game Design Vocabulary',D:'Video: Games & the Brain',E:'Combined Tracing'};
+var LETTERS=['A','B','C','D'];
+function byId(id){return document.getElementById(id);}
+function pad(n){return (n<10?'0':'')+n;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({i:i,score:score,answers:answers,student:student}));}catch(e){}}
+function clearSave(){try{localStorage.removeItem(KEY);}catch(e){}}
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&Array.isArray(s.answers)&&s.answers.length===Q.length){i=s.i||0;score=s.score||0;answers=s.answers;student=s.student||{name:'',cls:''};return true;}}catch(e){}return false;}
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmt(t){return esc(t).replace(/\[([^\]]+)\]/g,'[<span class="mono">$1</span>]');}
+
+/* Scratch block renderer */
+function part(p){
+  if(typeof p==='string') return esc(p);
+  if(p.n!==undefined) return '<span class="in num">'+esc(p.n)+'</span>';
+  if(p.t!==undefined) return '<span class="in txt">'+esc(p.t)+'</span>';
+  if(p.d!==undefined) return '<span class="drop'+(p.v?' var':'')+'">'+esc(p.d)+'</span>';
+  if(p.sw!==undefined) return '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid #fff;background:'+esc(p.sw)+'"></span>';
+  if(p.b!==undefined) return makeBlock(p.b);
+  return '';
+}
+function makeBlock(spec){
+  var ico=spec.ic?'<span class="ico">'+(ICONS[spec.ic]||'')+'</span>':'';
+  if(spec.k==='cwrap'){
+    var head=(spec.head||[]).map(part).join('');
+    var body=(spec.inner||[]).map(makeBlock).join('');
+    return '<div class="cwrap cat-'+spec.c+'"><div class="sb cat-'+spec.c+' stack ctop">'+ico+head+'</div>'+
+      '<div class="cbody"><div class="carm"></div><div class="cinner">'+body+'</div></div><div class="cfoot cat-'+spec.c+'"></div></div>';
+  }
+  return '<div class="sb cat-'+spec.c+' '+spec.k+'">'+ico+(spec.p||[]).map(part).join('')+'</div>';
+}
+function renderViz(viz){ if(!viz)return''; return '<div class="stage"><div class="script">'+viz.map(makeBlock).join('')+'</div></div>'; }
+
+function show(v){byId('startView').style.display=v==='start'?'block':'none';byId('quizView').style.display=v==='quiz'?'block':'none';byId('resultView').style.display=v==='result'?'block':'none';}
+
+function render(){
+  if(i>=Q.length){finish();return;}
+  var q=Q[i]; locked=answers[i]!==-1;
+  byId('who').innerHTML=student.name?(esc(student.name)+(student.cls?' <span>&middot; '+esc(student.cls)+'</span>':'')):'&nbsp;';
+  byId('pill').textContent=SECLABEL[q.s];
+  byId('pill').className='pill s'+q.s;
+  byId('qidx').textContent=pad(i+1)+' / '+Q.length;
+  byId('qnum').textContent=(i+1);
+  byId('scoreNow').textContent=score;
+  byId('bar').style.width=(i/Q.length*100)+'%';
+  byId('qtext').innerHTML=fmt(q.q);
+  byId('viz').innerHTML=renderViz(q.viz);
+  byId('opts').innerHTML='';
+  q.o.forEach(function(t,n){
+    var b=document.createElement('button');
+    b.className='opt';b.type='button';
+    b.innerHTML='<span class="k">'+LETTERS[n]+'</span><span>'+fmt(t)+'</span>';
+    b.addEventListener('click',function(){pick(n);});
+    byId('opts').appendChild(b);
+  });
+  byId('fb').className='fb';byId('fb').innerHTML='';
+  byId('nextBtn').disabled=!locked;
+  byId('nextBtn').textContent=(i===Q.length-1)?'Finish':'Next';
+  if(locked) lockState(answers[i]);
+}
+function lockState(chosen){
+  var q=Q[i],btns=Array.prototype.slice.call(byId('opts').children);
+  btns.forEach(function(b){b.disabled=true;});
+  btns[q.a].classList.add('right');
+  var ok=chosen===q.a;
+  if(!ok&&chosen>=0) btns[chosen].classList.add('wrong');
+  var fb=byId('fb');fb.className='fb on '+(ok?'good':'bad');
+  fb.innerHTML='<b>'+(ok?'Correct':'Not quite')+'</b>'+fmt(q.e);
+  byId('nextBtn').disabled=false;
+}
+function pick(n){
+  if(locked)return;locked=true;
+  var q=Q[i];answers[i]=n;if(n===q.a)score++;
+  byId('scoreNow').textContent=score;lockState(n);save();
+}
+function finish(){
+  stopAudio();
+  show('result');
+  var pct=Math.round(score/Q.length*100);
+  byId('rNum').textContent=score;byId('rOf').textContent='of '+Q.length;
+  var arc=byId('ringArc');var C=2*Math.PI*66;
+  arc.setAttribute('stroke-dasharray',C);
+  arc.setAttribute('stroke-dashoffset',C*(1-score/Q.length));
+  arc.setAttribute('stroke', pct>=75?'#22B07D':pct>=50?'#2B7FFF':'#F5A524');
+  var grade=pct>=90?'Excellent':pct>=75?'Great':pct>=60?'Good':pct>=50?'Passing':'Keep practising';
+  byId('rGrade').textContent=grade+(student.name?(' \u00B7 '+student.name):'');
+  byId('rMsg').textContent=pct>=90?'Outstanding. You know this term inside out.':pct>=75?'Strong result. A few to review and you are set.':pct>=60?'Solid. Look over the ones you missed below.':pct>=50?'You passed. Revisit the review notes to close the gaps.':'Work back through the reviewer, then try again.';
+  var st={A:0,B:0,C:0,D:0,E:0},gt={A:0,B:0,C:0,D:0,E:0};
+  Q.forEach(function(q,idx){st[q.s]++;if(answers[idx]===q.a)gt[q.s]++;});
+  byId('bA').textContent=gt.A+'/'+st.A;byId('bB').textContent=gt.B+'/'+st.B;byId('bC').textContent=gt.C+'/'+st.C;byId('bD').textContent=gt.D+'/'+st.D;byId('bE').textContent=gt.E+'/'+st.E;
+  var missed=Q.map(function(q,idx){return{q:q,idx:idx};}).filter(function(x){return answers[x.idx]!==x.q.a;});
+  var rv=byId('review');
+  if(missed.length===0){rv.innerHTML='<h3>Review</h3><div class="ritem"><div class="rq">Full marks. Nothing to review \u2014 brilliant.</div></div>';}
+  else{rv.innerHTML='<h3>Review &middot; '+missed.length+' to look at again</h3>'+missed.map(function(x){
+    var q=x.q,chosen=answers[x.idx];
+    var yourAns=chosen>=0?(LETTERS[chosen]+') '+q.o[chosen]):'No answer';
+    return '<div class="ritem"><div class="rq">Q'+(x.idx+1)+'. '+fmt(q.q)+'</div>'+renderViz(q.viz)+
+      '<div class="rrow"><span class="tagx">Your answer</span><span>'+fmt(yourAns)+'</span></div>'+
+      '<div class="rrow"><span class="tagok">Correct</span><span>'+LETTERS[q.a]+') '+fmt(q.o[q.a])+'</span></div>'+
+      '<div class="ex">'+fmt(q.e)+'</div></div>';
+  }).join('');}
+  clearSave();
+  saveToSheet(st,gt);
+}
+
+function saveToSheet(secTot,secGot){
+  var chip=byId('saveChip');
+  if(!BACKEND_URL){ chip.className='savechip done'; chip.textContent='Saved on this device'; return; }
+  chip.className='savechip pending'; chip.textContent='Saving your result\u2026';
+  var payload={type:'save',name:student.name,cls:student.cls,score:score,total:Q.length,percent:Math.round(score/Q.length*100),sections:{A:secGot.A,B:secGot.B,C:secGot.C,D:secGot.D,E:secGot.E},answers:answers.map(function(v){return v<0?'-':'ABCD'[v];})};
+  fetch(BACKEND_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+    .then(function(r){return r.json();})
+    .then(function(d){ if(d&&d.ok){ chip.className='savechip done'; chip.textContent='Result saved to the class sheet \u2713'; }
+      else { chip.className='savechip fail'; chip.textContent='Could not save online \u2014 saved on device'; } })
+    .catch(function(){ chip.className='savechip fail'; chip.textContent='Could not save online \u2014 saved on device'; });
+}
+byId('startBtn').addEventListener('click',function(){student.name=byId('nm').value.trim();student.cls=byId('cl').value.trim();i=0;score=0;answers=new Array(Q.length).fill(-1);save();show('quiz');render();});
+byId('nextBtn').addEventListener('click',function(){stopAudio();i++;if(i>=Q.length){finish();}else{render();window.scrollTo({top:0,behavior:'smooth'});}});
+byId('quitBtn').addEventListener('click',function(){stopAudio();save();show('start');});
+byId('againBtn').addEventListener('click',function(){clearSave();i=0;score=0;answers=new Array(Q.length).fill(-1);byId('nm').value=student.name;byId('cl').value=student.cls;show('start');});
+byId('printBtn').addEventListener('click',function(){window.print();});
+byId('audioBtn').addEventListener('click',playAudio);
+if(load()&&answers.some(function(v){return v!==-1;})&&i<Q.length){byId('nm').value=student.name;byId('cl').value=student.cls;show('quiz');render();}else{show('start');}
+</script>
+</body>
+</html>
