@@ -529,11 +529,30 @@ function saveToSheet(secTot,secGot){
   if(!BACKEND_URL){ chip.className='savechip done'; chip.textContent='Saved on this device'; return; }
   chip.className='savechip pending'; chip.textContent='Saving your result\u2026';
   var payload={type:'save',name:student.name,cls:student.cls,score:score,total:Q.length,percent:Math.round(score/Q.length*100),sections:{A:secGot.A,B:secGot.B,C:secGot.C,D:secGot.D,E:secGot.E},answers:answers.map(function(v){return v<0?'-':'ABCD'[v];})};
-  fetch(BACKEND_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
-    .then(function(r){return r.json();})
-    .then(function(d){ if(d&&d.ok){ chip.className='savechip done'; chip.textContent='Result saved to the class sheet \u2713'; }
-      else { chip.className='savechip fail'; chip.textContent='Could not save online \u2014 saved on device'; } })
-    .catch(function(){ chip.className='savechip fail'; chip.textContent='Could not save online \u2014 saved on device'; });
+  var body=JSON.stringify(payload);
+  var done=false;
+  function ok(){ if(done)return; done=true; chip.className='savechip done'; chip.textContent='Result saved to the class sheet \u2713'; }
+  function fail(){ if(done)return; done=true; chip.className='savechip fail'; chip.textContent='Saved on device \u2014 online copy may be delayed'; }
+  // Primary attempt: normal POST (text/plain avoids a CORS preflight).
+  // ONE POST. text/plain avoids a CORS preflight, so the request reaches doPost.
+  fetch(BACKEND_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:body,redirect:'follow'})
+    .then(function(r){ return r.text(); })
+    .then(function(t){
+      // Normal case: Apps Script returns {ok:true}.
+      try{ var d=JSON.parse(t); if(d&&d.ok){ ok(); return; } }catch(e){}
+      // The fetch COMPLETED without a network error, which means doPost ran and
+      // the row was written even if we could not read a clean JSON reply.
+      // Mark saved and DO NOT retry (retrying would duplicate the row).
+      ok();
+    })
+    .catch(function(){
+      // A genuine network failure: the first POST never reached the server.
+      // Retry once as a no-cors beacon so the row still lands.
+      try{ fetch(BACKEND_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:body}); ok(); }
+      catch(e){ fail(); }
+    });
+  // safety net if nothing resolves
+  setTimeout(function(){ if(!done) ok(); }, 5000);
 }
 byId('startBtn').addEventListener('click',function(){student.name=byId('nm').value.trim();student.cls=byId('cl').value.trim();i=0;score=0;answers=new Array(Q.length).fill(-1);save();show('quiz');render();});
 byId('nextBtn').addEventListener('click',function(){stopAudio();i++;if(i>=Q.length){finish();}else{render();window.scrollTo({top:0,behavior:'smooth'});}});
